@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: user
+#      POSTGRES_PASSWORD: 0000
+      POSTGRES_DB: todo_db
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/18/docker
+volumes:
+  pg_data:
+
