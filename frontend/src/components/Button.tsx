@@ -1,12 +1,14 @@
 type ButtonProps = {
   children: React.ReactNode;
   className?: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export default function Button({ children, className }: ButtonProps) {
+export default function Button({ children, className, onClick }: ButtonProps) {
   return (
     <button
-      className={`${className} hover:opacity-50 cursor-pointer flex items-center justify-center gap-2 border-1 p-2 rounded-md border-black text-lg`}
+      onClick={onClick}
+      className={`${className} hover:scale-105 cursor-pointer flex items-center justify-center gap-1 lg:gap-2 border p-1 lg:p-2 rounded-md border-black text-sm lg:text-lg`}
     >
       {children}
     </button>
