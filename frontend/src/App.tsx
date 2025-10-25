@@ -2,19 +2,11 @@ import AddTodoForm from "./components/AddTodoForm";
 import AllTodos from "./components/AllTodos";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { useState, useEffect } from "react";
-import { GetTodos } from "./api/TodoApis";
-import type { Todo } from "./components/TodoCard";
+import { useEffect } from "react";
+import { useTodos } from "./context/TodoContext";
 
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
-  const fetchTodos = async () => {
-    const data = await GetTodos();
-    if (data) {
-      setTodos(data);
-    }
-  };
+  const { fetchTodos } = useTodos();
 
   useEffect(() => {
     fetchTodos();
@@ -33,14 +25,14 @@ function App() {
         pauseOnHover
       />
       <main className="grid grid-cols-1 md:grid-cols-2 bg-amber-800 rounded-lg h-full w-full min-h-[calc(100vh-4rem)]">
-        <section className="flex flex-col items-center bg-amber-700 rounded-l-lg">
+        <section className="flex flex-col items-center bg-amber-700 rounded-t-lg md:rounded-l-lg md:rounded-r-none pb-6">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold my-4 md:mt-8 md:mb-10">
             Todo App
           </h1>
-          <AddTodoForm refreshTodos={fetchTodos} />
+          <AddTodoForm />
         </section>
         <section className="p-8">
-          <AllTodos todos={todos} />
+          <AllTodos />
         </section>
       </main>
     </div>

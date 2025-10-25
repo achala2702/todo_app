@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import Button from "./Button";
-import axios from "axios";
+import { AddTodo } from "../api/TodoApis";
 import { toast } from "react-toastify";
+import { useTodos } from "../context/TodoContext";
 
-type AddTodoFormProps = {
-  refreshTodos:()=>void;
-}
-
-export default function AddTodoForm({refreshTodos}: AddTodoFormProps) {
+export default function AddTodoForm() {
   const [todo, setTodo] = useState({ title: "", description: "" });
+  const { fetchTodos } = useTodos();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -20,18 +18,14 @@ export default function AddTodoForm({refreshTodos}: AddTodoFormProps) {
   const addTodo = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    try {
-      const res = await axios.post("http://localhost:8080/api/v1/todo", todo);
-      if(res.status===201) {
-        toast.success(res.data)
-        setTodo({ title: "", description: "" })
-        refreshTodos();
-      }else{
-        toast.error(res.data.errors)
-      }
-      
-    } catch (err) {
-      toast.error("Error occured while adding todo")
+    const result = await AddTodo(todo);
+
+    if (result) {
+      toast.success("Todo Added!");
+      setTodo({ title: "", description: "" });
+      fetchTodos();
+    } else {
+      toast.error("Failed to add todo");
     }
   };
 
