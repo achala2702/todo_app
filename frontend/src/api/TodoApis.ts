@@ -6,9 +6,11 @@ type AddTodo = {
   description: string;
 };
 
+const BASE_URL = "http://localhost:8080/api/v1/todo";
+
 export const GetTodos = async (): Promise<Todo[] | null> => {
   try {
-    const res = await axios.get("http://localhost:8080/api/v1/todo");
+    const res = await axios.get(BASE_URL);
     return res.data;
   } catch (err) {
     console.log("could not able to fetch data", err);
@@ -18,7 +20,7 @@ export const GetTodos = async (): Promise<Todo[] | null> => {
 
 export const AddTodo = async (todo: AddTodo) => {
   try {
-    const res = await axios.post("http://localhost:8080/api/v1/todo", todo);
+    const res = await axios.post(BASE_URL, todo);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -28,7 +30,7 @@ export const AddTodo = async (todo: AddTodo) => {
 
 export const DeleteTodo = async (id: number) => {
   try {
-    const res = await axios.delete(`http://localhost:8080/api/v1/todo/${id}`);
+    const res = await axios.delete(`${BASE_URL}/${id}`);
     return res.data;
   } catch (err) {
     console.log(err);
