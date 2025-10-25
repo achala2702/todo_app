@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: user
+#      POSTGRES_PASSWORD: 0000
+      POSTGRES_DB: todo_db
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/18/docker
+  
+  backend:
+    build: ./backend
+    container_name: todo_app_backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/todo_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  frontend:
+    build: ./frontend
+    container_name: todo_app_frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  pg_data:
+
