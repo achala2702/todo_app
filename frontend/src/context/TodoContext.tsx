@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import type { Todo } from "../components/TodoCard";
 import { GetTodos } from "../api/TodoApis";
 
@@ -9,11 +9,7 @@ type TodoContextType = {
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
 
-export function TodoProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function TodoProvider({ children }: { children: React.ReactNode }) {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const fetchTodos = async () => {
@@ -30,8 +26,8 @@ export function TodoProvider({
   );
 }
 
-export const useTodos = () => {
+export function useTodos() {
   const context = useContext(TodoContext);
   if (!context) throw new Error("useTodos must be used within a TodosProvider");
   return context;
-};
+}
